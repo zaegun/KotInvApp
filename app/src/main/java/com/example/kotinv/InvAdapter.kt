@@ -19,6 +19,8 @@ class InvAdapter(
         val invQty : TextView = itemView.findViewById(R.id.invAmount)
     }
 
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         // This creates a view of the data based on item_layout.xml
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
