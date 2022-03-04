@@ -2,7 +2,6 @@ package com.example.kotinv
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.content.Intent
 import android.widget.*
 
 class MainActivity : AppCompatActivity() {
@@ -11,42 +10,58 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         title = "Kotlin Inventory"
 
+        // Load and set the initial List
         loadData()
         setList()
 
+        // Get the button and listen to see if it's pressed
         val addButton = findViewById<Button>(R.id.btnAdd)
         addButton.setOnClickListener{
-            var textBox = findViewById<EditText>(R.id.editText)
-            var enteredText = textBox.text.toString()
-            val invItem = InvItem(enteredText, 0, "")
-            Global.setList(invItem)
-            textBox.setText("")
-            setList()
+            // When pressed it will take the text and add it to the list
+            addItem()
         }
 
-        }
+    }
+
+    private fun loadData() {
+        // PLACEHOLDER
+    }
 
     private fun setList() {
-        var listView = findViewById<ListView>(R.id.listView)
+        // Get the ListView
+        val listView = findViewById<ListView>(R.id.listView)
 
+        // Create an Array Adapter to display the list
         val arrayAdapter : ArrayAdapter<*>
         arrayAdapter = ArrayAdapter(
             this,
             android.R.layout.simple_list_item_1,
             Global.invListName)
+
+        // Use Adapter to populate the list with the Global data
         listView.adapter = arrayAdapter
     }
 
-    private fun loadData() {
-        var wordList = mutableListOf<String>()
-        wordList.add("Apple")
-        wordList.add("Pear")
-        wordList.add("Tomato")
+    private fun addItem() {
+        // Get the EditText object
+        val textBox = findViewById<EditText>(R.id.editText)
 
-        for (i in wordList.indices) {
-            val invItem = InvItem(wordList[i], 0, "")
-            Global.setList(invItem)
-        }
+        // Convert the text to a string
+        val enteredText = textBox.text.toString()
+
+        // Create the inventory object
+        val invItem = InvItem(enteredText, 0, "")
+
+        // Add it to the data
+        Global.setList(invItem)
+
+        // Reset the EditText object
+        textBox.setText("")
+
+        // Refreshes the list
+        setList()
     }
 
-    }
+
+
+}
