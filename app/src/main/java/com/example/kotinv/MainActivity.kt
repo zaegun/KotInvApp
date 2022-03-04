@@ -38,9 +38,7 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
     }
 
     private fun loadData() {
-        // PLACEHOLDER DATA
-        Global.setList(InvItem("Apple", 1, ""))
-        Global.setList(InvItem("Tomato", 3, ""))
+        // Load data into the Global list
     }
 
     private fun setList() {
