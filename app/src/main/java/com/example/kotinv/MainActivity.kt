@@ -38,18 +38,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setList() {
-        // Get the ListView
-        val listView = findViewById<ListView>(R.id.listView)
+        // Get the recycler list view
+        var listView = findViewById<RecyclerView>(R.id.listView)
 
-        // Create an Array Adapter to display the list
-        val arrayAdapter : ArrayAdapter<*>
-        arrayAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_list_item_1,
-            Global.invListName)
+        // Use the adapter to apply the global list of data to the layout
+        listView.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = InvAdapter(Global.invList)
 
-        // Use Adapter to populate the list with the Global data
-        listView.adapter = arrayAdapter
+        }
     }
 
     private fun addItem() {
@@ -68,8 +65,10 @@ class MainActivity : AppCompatActivity() {
         // Reset the EditText object
         textBox.setText("")
 
-        // Refreshes the list
+        // Refreshes the recycler view
         setList()
+
+
     }
 
 

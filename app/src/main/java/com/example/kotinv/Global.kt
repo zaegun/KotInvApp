@@ -12,8 +12,6 @@ object Global {
     fun setList(data : InvItem){
         // Adds the data to the inventory list
         invList.add(data)
-        // Sets the name array for easy listing
-        setListNameArr()
     }
 
     private fun setListNameArr() {
