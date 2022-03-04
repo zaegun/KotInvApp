@@ -3,6 +3,8 @@ package com.example.kotinv
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,7 +14,13 @@ class MainActivity : AppCompatActivity() {
 
         // Load and set the initial List
         loadData()
-        setList()
+        var listView = findViewById<RecyclerView>(R.id.listView)
+        listView.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = InvAdapter(Global.invList)
+
+        }
+
 
         // Get the button and listen to see if it's pressed
         val addButton = findViewById<Button>(R.id.btnAdd)
@@ -25,6 +33,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadData() {
         // PLACEHOLDER
+        Global.setList(InvItem("Apple", 1, ""))
+        Global.setList(InvItem("Tomato", 3, ""))
     }
 
     private fun setList() {

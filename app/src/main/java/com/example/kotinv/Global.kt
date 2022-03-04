@@ -4,7 +4,7 @@ object Global {
     // Global data
 
     // Holds the object list
-    private var invList = mutableListOf<InvItem>()
+    var invList = mutableListOf<InvItem>()
 
     // Holds the object name in a list
     var invListName = mutableListOf<String>()
