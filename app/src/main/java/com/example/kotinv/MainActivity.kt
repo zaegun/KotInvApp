@@ -11,58 +11,42 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         title = "Kotlin Inventory"
 
-        val arrayAdapter : ArrayAdapter<*>
+        loadData()
+        setList()
 
-        var wordList = mutableListOf<String>()
-        wordList.add("apple")
-        wordList.add("pear")
-        wordList.add("Tomato")
-
-        for (i in wordList.indices) {
-            val invItem = Item(wordList[i], 0, "")
+        val addButton = findViewById<Button>(R.id.btnAdd)
+        addButton.setOnClickListener{
+            var textBox = findViewById<EditText>(R.id.editText)
+            var enteredText = textBox.text.toString()
+            val invItem = InvItem(enteredText, 0, "")
             Global.setList(invItem)
+            textBox.setText("")
+            setList()
         }
-        Global.setListNameArr()
 
+        }
+
+    private fun setList() {
         var listView = findViewById<ListView>(R.id.listView)
-        var textView = findViewById<TextView>(R.id.editText)
-        textView.text = Global.invListName.toString()
 
-
+        val arrayAdapter : ArrayAdapter<*>
         arrayAdapter = ArrayAdapter(
             this,
             android.R.layout.simple_list_item_1,
             Global.invListName)
         listView.adapter = arrayAdapter
-        }
-
     }
 
-class Item (itemName : String, itemQty : Int, itemNote : String){
-    var invItem = ""
-    var invQty = 0
-    var invNote = ""
+    private fun loadData() {
+        var wordList = mutableListOf<String>()
+        wordList.add("Apple")
+        wordList.add("Pear")
+        wordList.add("Tomato")
 
-    init {
-        invItem = itemName
-        invQty = itemQty
-        invNote = itemNote
-    }
-
-}
-
-object Global {
-    var invList = mutableListOf<Item>()
-    var invListName = mutableListOf<String>()
-
-    fun setList(data : Item){
-        invList.add(data)
-    }
-
-    fun setListNameArr() {
-        invListName.clear()
-        for(item in invList){
-            invListName.add(item.invItem)
+        for (i in wordList.indices) {
+            val invItem = InvItem(wordList[i], 0, "")
+            Global.setList(invItem)
         }
     }
-}
+
+    }
