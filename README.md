@@ -1,30 +1,33 @@
 # Overview
 
-{Important!  Do not say in this section that this is college assignment.  Talk about what you are trying to accomplish as a software engineer to further your learning.}
-
-{Provide a description of your app.  Describe how to use the app.}
-
-{Describe your purpose for creating this app.}
-
-{Provide a link to your YouTube demonstration.  It should be a 4-5 minute demo of the app running and a walkthrough of the code.}
+This is a basic inventory app built using Android Studio and Kotlin.
+The purpose of this app is to be able to track inventory levels of user inputted items.
+The user can adjust the inventory amount at the item screen.
 
 [Software Demo Video](http://youtube.link.goes.here)
 
 # Development Environment
 
-{Describe the tools that you used to develop the app}
-
-{Describe the programming language that you used and any libraries.}
+* [Android Studio](https://developer.android.com/studio/)
+* [Kotlin](https://kotlinlang.org/)
+* [OpenJDK](https://jdk.java.net/)
+* [GitHub](https://github.com/)
 
 # Useful Websites
 
-{Make a list of websites that you found helpful in this project}
-* [Web Site Name](http://url.link.goes.here)
-* [Web Site Name](http://url.link.goes.here)
+* [Kotlin Documentation](https://kotlinlang.org/docs/home.html)
+* [Kotlin Tutorial](https://www.programiz.com/kotlin-programming)
+* [Learn Kotlin](https://www.tutorialspoint.com/kotlin/index.htm)
+* [W3Schools](https://www.w3schools.com/kotlin/)
+* [Java T Point Tutorial](https://www.javatpoint.com/kotlin-tutorial)
+* [RecyclerView Tutorial](https://www.youtube.com/watch?v=nANxklH7Aq0)
+* [OnResume Question](https://stackoverflow.com/questions/15658687/how-to-use-onresume)
+* [RecyclerView Click Tutorial](https://www.youtube.com/watch?v=wKFJsrdiGS8)
+
 
 # Future Work
 
-{Make a list of things that you need to fix, improve, and add in the future.}
-* Item 1
-* Item 2
-* Item 3
+* Add note text to each inventory item
+* Add the ability to delete items
+* Save data to a database
+
