@@ -8,18 +8,31 @@ import androidx.recyclerview.widget.RecyclerView
 
 // This adapter class take the data and displays the it in a list in the recycler view
 
-class InvAdapter(
-    val list : List<InvItem>
-) : RecyclerView.Adapter<InvAdapter.MyViewHolder>(){
+class InvAdapter(val list : List<InvItem>, val listener : OnItemClickListener) :
+    RecyclerView.Adapter<InvAdapter.MyViewHolder>(){
 
-
-    inner class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+    inner class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         // Get the objects in the view for each row
         val invItem : TextView = itemView.findViewById(R.id.invName)
         val invQty : TextView = itemView.findViewById(R.id.invAmount)
+
+        //Set up click event handler
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(p0: View?) {
+            val position : Int = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
+        }
     }
 
-
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         // This creates a view of the data based on item_layout.xml
@@ -44,4 +57,6 @@ class InvAdapter(
         // Gets the total amount of items in the list
         return list.size
     }
+
+
 }

@@ -1,12 +1,13 @@
 package com.example.kotinv
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -14,13 +15,7 @@ class MainActivity : AppCompatActivity() {
 
         // Load and set the initial List
         loadData()
-        var listView = findViewById<RecyclerView>(R.id.listView)
-        listView.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = InvAdapter(Global.invList)
-
-        }
-
+        setList()
 
         // Get the button and listen to see if it's pressed
         val addButton = findViewById<Button>(R.id.btnAdd)
@@ -31,20 +26,31 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onItemClick(position: Int) {
+        // Open the clicked item
+        startItemActivity(position)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh the list when the Activity is resumed
+        setList()
+    }
+
     private fun loadData() {
-        // PLACEHOLDER
+        // PLACEHOLDER DATA
         Global.setList(InvItem("Apple", 1, ""))
         Global.setList(InvItem("Tomato", 3, ""))
     }
 
     private fun setList() {
         // Get the recycler list view
-        var listView = findViewById<RecyclerView>(R.id.listView)
+        val listView = findViewById<RecyclerView>(R.id.listView)
 
         // Use the adapter to apply the global list of data to the layout
         listView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = InvAdapter(Global.invList)
+            adapter = InvAdapter(Global.invList, this@MainActivity)
 
         }
     }
@@ -68,9 +74,20 @@ class MainActivity : AppCompatActivity() {
         // Refreshes the recycler view
         setList()
 
+        // Open the item screen with the item created
+        val newPos = Global.invList.size - 1
+        startItemActivity(newPos)
 
     }
 
+    private fun startItemActivity (position : Int) {
+        // Create the intent for the ItemView Activity
+        val intent = Intent(this@MainActivity, ItemView::class.java)
 
+        // Pass along the position data
+        intent.putExtra("position", position)
 
+        // Start the Activity
+        startActivity(intent)
+    }
 }
