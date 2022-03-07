@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,27 +55,35 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
     }
 
     private fun addItem() {
-        // Get the EditText object
-        val textBox = findViewById<EditText>(R.id.editText)
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet, null)
+        val btnAdd = view.findViewById<Button>(R.id.bttmAddBtn)
 
-        // Convert the text to a string
-        val enteredText = textBox.text.toString()
+        btnAdd.setOnClickListener(){
+            // Get the EditText object
+            val textBox = view.findViewById<EditText>(R.id.itemName)
 
-        // Create the inventory object
-        val invItem = InvItem(enteredText, 0, "")
+            // Convert the text to a string
+            val enteredText = textBox.text.toString()
 
-        // Add it to the data
-        Global.setList(invItem)
+            // Create the inventory object
+            val invItem = InvItem(enteredText, 0, "")
 
-        // Reset the EditText object
-        textBox.setText("")
+            // Add it to the data
+            Global.setList(invItem)
 
-        // Refreshes the recycler view
-        setList()
+            // Reset the EditText object
+            textBox.setText("")
 
-        // Open the item screen with the item created
-        val newPos = Global.invList.size - 1
-        startItemActivity(newPos)
+            // Refreshes the recycler view
+            setList()
+
+            // Dismiss Dialog
+            dialog.dismiss()
+        }
+        dialog.setCancelable(false)
+        dialog.setContentView(view)
+        dialog.show()
 
     }
 

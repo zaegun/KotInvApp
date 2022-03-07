@@ -1,7 +1,9 @@
 package com.example.kotinv
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 
@@ -11,6 +13,9 @@ class ItemView : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_view)
+
+        // Call the action bar and show the back button
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Get the passed in position from the main page and setup the UI
         val position = intent.getIntExtra("position", 0)
@@ -41,6 +46,17 @@ class ItemView : AppCompatActivity() {
             setInterface(position, invHeader, invAmt, invNote)
         }
 
+    }
+
+    // Enables the back button on the page
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onContextItemSelected(item)
     }
 
     private fun setInterface(position: Int, invHeader: TextView, invAmt: TextView, invNote: TextView) {
