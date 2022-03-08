@@ -21,12 +21,11 @@ class ItemView : AppCompatActivity() {
         val position = intent.getIntExtra("position", 0)
 
         // Get the header, inventory amount, and the note objects
-        val invHeader = findViewById<TextView>(R.id.itemHeader)
         val invAmt = findViewById<TextView>(R.id.itemAmt)
         val invNote = findViewById<TextView>(R.id.invNote)
 
         // Setup the interface
-        setInterface(position, invHeader, invAmt, invNote)
+        setInterface(position, invAmt, invNote)
 
         // Get Buttons
         val subButton = findViewById<Button>(R.id.subBtn)
@@ -37,13 +36,13 @@ class ItemView : AppCompatActivity() {
             // Subtracts 1 to the inventory item
             Global.changeInv(Global.invList[position].invItem, -1)
             //Refreshes the view
-            setInterface(position, invHeader, invAmt, invNote)
+            setAmt(position, invAmt)
         }
         addButton.setOnClickListener {
             //Adds 1 to the inventory item
             Global.changeInv(Global.invList[position].invItem, 1)
             //Refreshes the view
-            setInterface(position, invHeader, invAmt, invNote)
+            setAmt(position, invAmt)
         }
 
     }
@@ -59,10 +58,15 @@ class ItemView : AppCompatActivity() {
         return super.onContextItemSelected(item)
     }
 
-    private fun setInterface(position: Int, invHeader: TextView, invAmt: TextView, invNote: TextView) {
+    private fun setInterface(position: Int, invAmt: TextView, invNote: TextView) {
         // Set the objects to their respective data values
-        invHeader.text = Global.invList[position].invItem
+        title = Global.invList[position].invItem
         invAmt.text = Global.invList[position].invQty.toString()
         invNote.text = Global.invList[position].invNote
+    }
+
+    private fun setAmt(position: Int, invAmt: TextView) {
+        // Sets the amount in the text box
+        invAmt.text = Global.invList[position].invQty.toString()
     }
 }
