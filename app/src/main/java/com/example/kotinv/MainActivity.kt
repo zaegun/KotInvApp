@@ -3,6 +3,7 @@ package com.example.kotinv
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
         val addButton = findViewById<Button>(R.id.btnAdd)
         addButton.setOnClickListener{
             // When pressed it will take the text and add it to the list
-            addItem()
+            openDialog()
         }
 
     }
@@ -54,26 +55,49 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
         }
     }
 
-    private fun addItem() {
+    private fun openDialog() {
+        // Sets the dialog box
         val dialog = BottomSheetDialog(this)
+
+        // Show the dialog box
         val view = layoutInflater.inflate(R.layout.bottom_sheet, null)
+
+        // Get objects in the dialog box
+        val itemName = view.findViewById<EditText>(R.id.footItemName)
+        val itemMemo = view.findViewById<EditText>(R.id.footMemo)
+        val itemSub = view.findViewById<Button>(R.id.footSubBtn)
+        val itemAmt = view.findViewById<TextView>(R.id.footAmt)
+        val itemAdd = view.findViewById<Button>(R.id.footAddBtn)
+
+        // Sets listeners on the + and - buttons
+        itemSub.setOnClickListener() {
+            // Subtract the amount by 1
+            adjustAmtText(itemAmt, -1)
+        }
+
+        itemAdd.setOnClickListener() {
+            // Add to the amount by 1
+            adjustAmtText(itemAmt, 1)
+        }
+
+        // Gets the add item button
         val btnAdd = view.findViewById<Button>(R.id.bttmAddBtn)
-
         btnAdd.setOnClickListener(){
-            // Get the EditText object
-            val textBox = view.findViewById<EditText>(R.id.itemName)
-
-            // Convert the text to a string
-            val enteredText = textBox.text.toString()
+            // Get all the inputted text
+            val enteredText = itemName.text.toString()
+            val enteredMemo = itemMemo.text.toString()
+            val enteredAmt = itemAmt.text.toString().toInt()
 
             // Create the inventory object
-            val invItem = InvItem(enteredText, 0, "")
+            val invItem = InvItem(enteredText, enteredAmt, enteredMemo)
 
             // Add it to the data
             Global.setList(invItem)
 
             // Reset the EditText object
-            textBox.setText("")
+            itemName.setText("")
+            itemMemo.setText("")
+            itemAmt.text = "0"
 
             // Refreshes the recycler view
             setList()
@@ -81,10 +105,21 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
             // Dismiss Dialog
             dialog.dismiss()
         }
+
+        // Set the view dialog and show it
         dialog.setCancelable(false)
         dialog.setContentView(view)
         dialog.show()
 
+    }
+
+    fun adjustAmtText(textView : TextView, amt : Int) {
+        // Get the amount in the textview and add the passed through amount
+        val curAmt = textView.text.toString().toInt()
+        val newAmt = curAmt + amt
+
+        // Change the textview text to the new amount
+        textView.text = newAmt.toString()
     }
 
     private fun startItemActivity (position : Int) {
