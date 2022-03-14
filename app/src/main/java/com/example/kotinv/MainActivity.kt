@@ -1,10 +1,10 @@
 package com.example.kotinv
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,7 +43,8 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
     override fun onResume() {
         super.onResume()
         // Refresh the list when the Activity is resumed
-        setList(findViewById<RecyclerView>(R.id.listView))
+        val listView = findViewById<RecyclerView>(R.id.listView)
+        setList(listView)
     }
 
     private fun loadData() {
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
 
     }
 
+    @SuppressLint("InflateParams")
     private fun openDialog() {
         // Sets the dialog box
         val dialog = BottomSheetDialog(this)
@@ -96,19 +98,19 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
         val itemAdd = view.findViewById<Button>(R.id.footAddBtn)
 
         // Sets listeners on the + and - buttons
-        itemSub.setOnClickListener() {
+        itemSub.setOnClickListener {
             // Subtract the amount by 1
             adjustAmtText(itemAmt, -1)
         }
 
-        itemAdd.setOnClickListener() {
+        itemAdd.setOnClickListener {
             // Add to the amount by 1
             adjustAmtText(itemAmt, 1)
         }
 
         // Gets the add item button
         val btnAdd = view.findViewById<Button>(R.id.bttmAddBtn)
-        btnAdd.setOnClickListener(){
+        btnAdd.setOnClickListener{
             // Get all the inputted text
             val enteredText = itemName.text.toString()
             val enteredMemo = itemMemo.text.toString()
@@ -139,7 +141,7 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
 
     }
 
-    fun adjustAmtText(textView : TextView, amt : Int) {
+    private fun adjustAmtText(textView : TextView, amt : Int) {
         // Get the amount in the textview and add the passed through amount
         val curAmt = textView.text.toString().toInt()
         val newAmt = curAmt + amt
