@@ -3,8 +3,10 @@ package com.example.kotinv
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -15,13 +17,18 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
         setContentView(R.layout.activity_main)
         title = "Kotlin Inventory"
 
+        // Get the recycler list view
+        val listView = findViewById<RecyclerView>(R.id.listView)
+
         // Load and set the initial List
         loadData()
-        setList()
+        setList(listView)
+        setSwipeFunctionality(listView)
 
         // Get the button and listen to see if it's pressed
         val addButton = findViewById<Button>(R.id.btnAdd)
         addButton.setOnClickListener{
+            Log.d("MainActivity", Global.invList.size.toString())
             // When pressed it will take the text and add it to the list
             openDialog()
         }
@@ -36,23 +43,42 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
     override fun onResume() {
         super.onResume()
         // Refresh the list when the Activity is resumed
-        setList()
+        setList(findViewById<RecyclerView>(R.id.listView))
     }
 
     private fun loadData() {
         // Load data into the Global list
     }
 
-    private fun setList() {
-        // Get the recycler list view
-        val listView = findViewById<RecyclerView>(R.id.listView)
-
+    private fun setList(listView : RecyclerView) {
         // Use the adapter to apply the global list of data to the layout
         listView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = InvAdapter(Global.invList, this@MainActivity)
 
         }
+    }
+
+    private fun setSwipeFunctionality(listView: RecyclerView) {
+        // Set swipe functionality
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback() {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                // Get the position of the item that needs to be deleted
+                val position = viewHolder.adapterPosition
+
+                //Remove the object at the given position
+                Global.invList.removeAt(position)
+
+                // Send the position of the item removed to the adapter
+                listView.adapter?.notifyItemRemoved(position)
+            }
+
+        }
+
+        // Apply the swipe event to the recycler view
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(listView)
+
     }
 
     private fun openDialog() {
@@ -100,7 +126,7 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
             itemAmt.text = "0"
 
             // Refreshes the recycler view
-            setList()
+            setList(findViewById(R.id.listView))
 
             // Dismiss Dialog
             dialog.dismiss()
