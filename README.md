@@ -23,11 +23,10 @@ The user can adjust the inventory amount at the item screen.
 * [RecyclerView Tutorial](https://www.youtube.com/watch?v=nANxklH7Aq0)
 * [OnResume Question](https://stackoverflow.com/questions/15658687/how-to-use-onresume)
 * [RecyclerView Click Tutorial](https://www.youtube.com/watch?v=wKFJsrdiGS8)
+* [SQLite Tutorial](https://www.geeksforgeeks.org/android-sqlite-database-in-kotlin/)
+* [SQLite Tutorial Video](https://www.youtube.com/watch?v=9LYn-OBO5qE)
 
 
 # Future Work
 
-* Add note text to each inventory item
-* Add the ability to delete items
-* Save data to a database
 
