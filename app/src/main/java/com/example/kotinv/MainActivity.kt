@@ -1,6 +1,7 @@
 package com.example.kotinv
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +18,8 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
         setContentView(R.layout.activity_main)
         title = "Kotlin Inventory"
 
+        // Get context
+        var context = this
         // Get the recycler list view
         val listView = findViewById<RecyclerView>(R.id.listView)
 
@@ -30,7 +33,7 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
         addButton.setOnClickListener{
             Log.d("MainActivity", Global.invList.size.toString())
             // When pressed it will take the text and add it to the list
-            openDialog()
+            openDialog(context)
         }
 
     }
@@ -48,7 +51,15 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
     }
 
     private fun loadData() {
-        // Load data into the Global list
+        // Make sure the local data is cleared
+        Global.clearInv()
+
+        // Get the handler and read the database
+        val db = DataBaseHandler(this, null)
+        val readList = db.readData()
+
+        // Put the contents into Global for usage
+        Global.invList = readList
     }
 
     private fun setList(listView : RecyclerView) {
@@ -83,7 +94,7 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
     }
 
     @SuppressLint("InflateParams")
-    private fun openDialog() {
+    private fun openDialog(context: Context) {
         // Sets the dialog box
         val dialog = BottomSheetDialog(this)
 
@@ -118,6 +129,17 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
 
             // Create the inventory object
             val invItem = InvItem(enteredText, enteredAmt, enteredMemo)
+
+            // Save data to db
+            var db = DataBaseHandler(context, null)
+            var status = db.insertData(invItem)
+
+            // Show Toast Message based on if it was saved or not
+            if (status > -1) {
+                Toast.makeText(this, "$enteredText added", Toast.LENGTH_LONG).show()
+            }else {
+                Toast.makeText(this, "$enteredText not added", Toast.LENGTH_LONG).show()
+            }
 
             // Add it to the data
             Global.setList(invItem)

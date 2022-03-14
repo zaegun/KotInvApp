@@ -5,6 +5,7 @@ class InvItem(itemName : String, itemQty : Int, itemNote : String) {
         var invItem = ""
         var invQty = 0
         var invNote = ""
+        var id : Int = 0
 
         init {
             invItem = itemName
