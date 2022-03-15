@@ -4,7 +4,8 @@ This is a basic inventory app built using Android Studio and Kotlin.
 The purpose of this app is to be able to track inventory levels of user inputted items.
 The user can adjust the inventory amount at the item screen.
 
-[Software Demo Video](https://youtu.be/gI2Sn_OZ6WQ)
+[Software Demo Video Alpha 2](https://youtu.be/gI2Sn_OZ6WQ)
+[Software Demo Video Alpha 1](https://youtu.be/gI2Sn_OZ6WQ)
 
 # Development Environment
 
@@ -28,5 +29,9 @@ The user can adjust the inventory amount at the item screen.
 
 
 # Future Work
+* Dialog box should close when clicked outside of it
+* Keyboard currently covers the add button
+* The item inventory screen needs a better UI
+* Showing part of the memo on the list screen would probably be beneficial
 
 
