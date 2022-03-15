@@ -4,7 +4,7 @@ This is a basic inventory app built using Android Studio and Kotlin.
 The purpose of this app is to be able to track inventory levels of user inputted items.
 The user can adjust the inventory amount at the item screen.
 
-[UI and SQLite Showcase](https://youtu.be/67gkpK7by8g)
+[UI and SQLite Showcase](https://youtu.be/La4nAtSCqzA)
 
 [OLD Software Demo Video](https://youtu.be/gI2Sn_OZ6WQ)
 
