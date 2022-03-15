@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 
 class ItemView : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,5 +68,23 @@ class ItemView : AppCompatActivity() {
     private fun setAmt(position: Int, invAmt: TextView) {
         // Sets the amount in the text box
         invAmt.text = Global.invList[position].invQty.toString()
+
+        // creates the item to update the db
+        val item = Global.invList[position]
+
+        // Save data to db and update
+        var db = DataBaseHandler(this, null)
+        var status = db.updateItem(item)
+
+        // Get the name of the item
+        val itemName = Global.invList[position].invItem
+
+        // Show Toast Message based on if it was saved or not
+        if (status > -1) {
+            Toast.makeText(this, "$itemName updated", Toast.LENGTH_LONG).show()
+        }else {
+            Toast.makeText(this, "$itemName not updated", Toast.LENGTH_LONG).show()
+        }
+
     }
 }

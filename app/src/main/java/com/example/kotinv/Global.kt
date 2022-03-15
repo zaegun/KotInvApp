@@ -20,4 +20,8 @@ object Global {
         foundItem.invQty = newAmt
     }
 
+    fun clearInv() {
+        invList.clear()
+    }
+
 }
