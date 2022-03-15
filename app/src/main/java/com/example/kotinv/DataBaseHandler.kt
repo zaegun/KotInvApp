@@ -13,7 +13,6 @@ class DataBaseHandler(var context: Context, factory: SQLiteDatabase.CursorFactor
     companion object {
         private val DATABASE_NAME = "KotInvDB"
         val TABLE_NAME = "InvItem"
-        val COL_ID = "id"
         val COL_NAME = "name"
         val COL_QTY = "qty"
         val COL_MEMO = "memo"
@@ -22,8 +21,7 @@ class DataBaseHandler(var context: Context, factory: SQLiteDatabase.CursorFactor
     override fun onCreate(db: SQLiteDatabase?) {
         // Create the SQL table
         val createTable = ("CREATE TABLE " + TABLE_NAME + " (" +
-                COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COL_NAME + " TEXT," +
+                COL_NAME + " TEXT PRIMARY KEY," +
                 COL_QTY + " INTEGER," +
                 COL_MEMO + " TEXT" + ")")
 
@@ -73,11 +71,12 @@ class DataBaseHandler(var context: Context, factory: SQLiteDatabase.CursorFactor
             return ArrayList()
         }
 
-        var id : Int
+        // Store the values we will be using
         var name : String
         var qty : Int
         var memo : String
 
+        // Get the values and apply it to the list
         if (cursor!!.moveToFirst()) {
             do {
                 name = cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME))
@@ -89,8 +88,41 @@ class DataBaseHandler(var context: Context, factory: SQLiteDatabase.CursorFactor
             } while (cursor.moveToNext())
         }
 
-        // return the cursor to read data from the db
+        // return the list
         return invList
+    }
+
+    fun updateItem(item : InvItem) : Int {
+        // Get the database
+        val db = this.writableDatabase
+        var cv = ContentValues()
+        var invName = item.invItem
+
+        // Populate the values
+        cv.put(COL_NAME, item.invItem)
+        cv.put(COL_QTY, item.invQty)
+        cv.put(COL_MEMO, item.invNote)
+
+        // Update the item in the db and report the success or not
+        val success = db.update(TABLE_NAME, cv,"$COL_NAME=?", arrayOf(invName))
+        db.close()
+        return success
+
+    }
+
+    fun deleteItem(item : InvItem) : Int {
+        // Get the database
+        val db = this.writableDatabase
+        var cv = ContentValues()
+        var invName = item.invItem
+
+        // Populate the values
+        cv.put(COL_NAME, item.invItem)
+
+        // Delete the item
+        val success = db.delete(TABLE_NAME, "$COL_NAME=?", arrayOf(invName))
+        db.close()
+        return success
     }
 
 

@@ -19,14 +19,14 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
         title = "Kotlin Inventory"
 
         // Get context
-        var context = this
+        val context = this
         // Get the recycler list view
         val listView = findViewById<RecyclerView>(R.id.listView)
 
         // Load and set the initial List
         loadData()
         setList(listView)
-        setSwipeFunctionality(listView)
+        setSwipeFunctionality(listView, this)
 
         // Get the button and listen to see if it's pressed
         val addButton = findViewById<Button>(R.id.btnAdd)
@@ -71,12 +71,18 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
         }
     }
 
-    private fun setSwipeFunctionality(listView: RecyclerView) {
+    private fun setSwipeFunctionality(listView: RecyclerView, context: Context) {
         // Set swipe functionality
         val swipeToDeleteCallback = object : SwipeToDeleteCallback() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 // Get the position of the item that needs to be deleted
                 val position = viewHolder.adapterPosition
+
+                //Remove from the db
+                // Get the handler and read the database
+                val db = DataBaseHandler(context, null)
+                db.deleteItem(Global.invList[position])
+
 
                 //Remove the object at the given position
                 Global.invList.removeAt(position)
@@ -131,8 +137,8 @@ class MainActivity : AppCompatActivity(), InvAdapter.OnItemClickListener {
             val invItem = InvItem(enteredText, enteredAmt, enteredMemo)
 
             // Save data to db
-            var db = DataBaseHandler(context, null)
-            var status = db.insertData(invItem)
+            val db = DataBaseHandler(context, null)
+            val status = db.insertData(invItem)
 
             // Show Toast Message based on if it was saved or not
             if (status > -1) {
