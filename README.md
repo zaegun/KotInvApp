@@ -5,6 +5,7 @@ The purpose of this app is to be able to track inventory levels of user inputted
 The user can adjust the inventory amount at the item screen.
 
 [Software Demo Video Alpha 2](https://youtu.be/gI2Sn_OZ6WQ)
+
 [Software Demo Video Alpha 1](https://youtu.be/gI2Sn_OZ6WQ)
 
 # Development Environment
